@@ -16,7 +16,6 @@ class NoteController {
   static async getOneNoteByID(req, res) {
     try {
       const { id } = req.params;
-      console.log(id);
       const query = await Note.findByPk(id);
       res.status(200).json(query);
     } catch (err) {
@@ -28,14 +27,12 @@ class NoteController {
   static async createNote(req, res) {
     try {
       const payload = req.body;
-      console.log(payload);
       const authenticatedUser = res.locals.user;
-      console.log(authenticatedUser.id);
       const query = await Note.create(
         {
             name : payload.name,
             description : payload.description,
-            user_id: authenticatedUser.id
+            userId: authenticatedUser.id
         });
       res.status(200).json(query);
     } catch (err) {
@@ -52,13 +49,18 @@ class NoteController {
         name,
         description
       };
-      const query = Note.update(data, {
+    Note.update(data, {
         where: {
           id,
         },
         returning: true,
+        plain: true
+      }).then(function (result) {
+        const response = { name:"NoteUpdate", message: "Note was updated Successfully!", data: result[1].dataValues };
+        res.status(200).json(response);
+
       });
-      res.status(200).json(query);
+    //   console.log(query);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -67,15 +69,38 @@ class NoteController {
   static async deleteNote(req, res) {
     try {
       const { id } = req.params;
-      const query = Note.destroy({
+      Note.destroy({
         where: {
           id,
         },
+        returning: true,
+        plain: true
+      }).then(function (result) {
+        if(result == true){
+            const response = { name:"NoteDelete", message: "Note was deleted!" };
+            res.status(200).json(response);
+        }else{
+            res.status(500).json(err);            
+        }
       });
-      res.status(200).json(query);
     } catch (err) {
       res.status(500).json(err);
     }
+  }
+
+  static async getNoteByUserId(req, res) {
+    try {
+        const authenticatedUser = res.locals.user;
+        const userInfo = await Note.findAll({
+            where: {
+                userId: authenticatedUser.id
+            },
+        });
+        res.status(200).json(userInfo);
+      } catch (err) {
+          console.log(err);
+        res.status(500).json(err);
+      }
   }
 }
 

@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // associate with table photos One To Many
-      // this.belongsTo(models.note);
+      this.hasMany(models.Note,{
+        foreignKey: 'userId'
+      });
     }
   }
   user.init({
@@ -23,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'user',
+    tableName: 'users',
     hooks: {
       beforeCreate: (user, opt) => {
         let hashedPassword = hashPassword(user.password);
