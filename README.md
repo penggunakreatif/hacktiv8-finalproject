@@ -76,7 +76,6 @@ RESPONSE
 
 
 #### Create Notes 
-
 ```
 POST localhost:3000/notes
 ```
@@ -87,12 +86,58 @@ x-access-token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiO
 ```
 
 RESPONSE 
-```
 ![alt text](https://github.com/penggunakreatif/hacktiv8-finalproject/blob/main/image/create-note.png?raw=true)
+
+
+
+#### Get Notes by ID 
+```
+POST localhost:3000/notes/:id
+```
+Set Parameter Header `x-access-token`
+
+RESPONSE 
+![alt text](https://github.com/penggunakreatif/hacktiv8-finalproject/blob/main/image/view-note.png?raw=true)
+
+
+#### Update Notes by ID 
+```
+PUT localhost:3000/notes/:id
+```
+Set Parameter Header `x-access-token`
+
+PARAM 
+```
+{
+    "name"  : "List 4",
+    "description" : "Final Project"
+}
 ```
 
 
+RESPONSE 
+![alt text](https://github.com/penggunakreatif/hacktiv8-finalproject/blob/main/image/update-note.png?raw=true)
 
+
+#### DELETE Notes by ID 
+```
+DELETE localhost:3000/notes/:id
+```
+Set Parameter Header `x-access-token`
+
+
+RESPONSE 
+![alt text](https://github.com/penggunakreatif/hacktiv8-finalproject/blob/main/image/delete-note.png?raw=true)
+
+#### GET NOTES BY USER
+```
+GET localhost:3000/notes/byUser
+```
+Set Parameter Header `x-access-token`
+
+
+RESPONSE 
+![alt text](https://github.com/penggunakreatif/hacktiv8-finalproject/blob/main/image/note-byuser.png?raw=true)
 
 
 
